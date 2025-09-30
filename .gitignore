@@ -41,9 +41,9 @@ yarn-error.log*
 next-env.d.ts
 
 # IDE / Editor
-.idea/           # WebStorm / IntelliJ
-.vscode/         # VSCode
-*.iml            # IntelliJ project files
+.idea/
+.vscode/
+*.iml
 
 # logs
 logs

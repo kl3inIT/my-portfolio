@@ -1,0 +1,21 @@
+---
+globs: src/app/**,*.tsx
+description: React 19 and Next.js 15 best practices for components and app router
+---
+## React 19 and Next.js 15 Best Practices
+
+### Component Architecture
+
+- Favor React Server Components (RSC) where possible
+- Minimize 'use client' directives
+- Implement proper error boundaries
+- Use Suspense for async operations
+- Optimize for performance and Web Vitals
+
+### State Management
+
+- Use `useActionState` instead of deprecated `useFormState`
+- Leverage enhanced `useFormStatus` with new properties (data, method, action)
+- Implement URL state management with 'nuqs'
+- Minimize client-side state
+
