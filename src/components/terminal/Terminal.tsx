@@ -1,0 +1,108 @@
+'use client';
+import { useRef, useEffect, useState } from 'react';
+import { Help } from './commands';
+import { TerminalInfo } from './TerminalInfo';
+import {
+  Command,
+  CommandHistory,
+  CommandHandler,
+  ParsedCommand,
+  ExecContext,
+} from '@/types/terminal';
+
+const parseCommand = (rawInput: string): ParsedCommand => {
+  const commandParts = rawInput.trim().split(/\s+/);
+  const command = (commandParts[0] || 'help') as Command;
+  const rest = commandParts.slice(1);
+  return { command, rest, rawInput };
+};
+
+export function Terminal() {
+  const [history, setHistory] = useState<CommandHistory[]>([]);
+  const [input, setInput] = useState('');
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
+
+  const context: ExecContext = {
+    print: (out) => {
+      setHistory((prev) => {
+        const last = prev[prev.length - 1];
+        const updated = { ...last, output: out };
+        return [...prev.slice(0, -1), updated]; // update last entry (add output)
+      });
+    },
+    clear: () => setHistory([]),
+  };
+
+  const handlers: Record<Command, CommandHandler> = {
+    help: () => <Help />,
+    clear: (_, context) => {
+      context.clear();
+      return null;
+    },
+  };
+
+  const executeCommand = async (rawInput: string) => {
+    const { command, rest } = parseCommand(rawInput);
+
+    // push command vào history trước, output tạm null
+    setHistory((prev) => [
+      ...prev,
+      {
+        command: [command, ...rest].join(' '),
+        output: null,
+        timestamp: new Date().toISOString(),
+      },
+    ]);
+
+    const handler =
+      handlers[command] ??
+      (() =>
+        `Command not found: ${command}. Type "help" for a list of commands.`);
+
+    const output = await handler(rest, context);
+    if (output !== null) context.print(output);
+    setInput('');
+  };
+  return (
+    <div className='mx-auto max-w-3xl p-4'>
+      <TerminalInfo />
+      <div className='mb-4 space-y-2'>
+        {history.map((h, i) => (
+          <div key={i} className='space-y-1'>
+            <div className='flex items-center'>
+              <span className='mr-2 text-green-500'>visitor@kl3inIT:~</span>
+              <span className='mr-2 text-green-400'>$</span>
+              <span className='text-green-300'>{h.command}</span>
+            </div>
+            {h.output !== null && (
+              <div className='ml-4 whitespace-pre-line text-green-200'>
+                {h.output}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+
+      <div className='flex items-center'>
+        <span className='mr-2 text-green-400'>$</span>
+        <span className='mr-2 text-green-500'>visitor@kl3inIT:~</span>
+        <input
+          ref={inputRef}
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') void executeCommand(input);
+          }}
+          className='flex-1 bg-transparent font-mono text-green-400 outline-none'
+          placeholder='Type a command...'
+          autoComplete='off'
+        />
+        <span className='text-green-400'>|</span>
+      </div>
+    </div>
+  );
+}
