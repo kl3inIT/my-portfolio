@@ -68,18 +68,17 @@ export function Terminal() {
     setInput('');
   };
   return (
-    <div className='mx-auto max-w-3xl p-4'>
+    <div className='w-full p-4'>
       <TerminalInfo />
       <div className='mb-4 space-y-2'>
         {history.map((h, i) => (
           <div key={i} className='space-y-1'>
             <div className='flex items-center'>
-              <span className='mr-2 text-green-500'>visitor@kl3inIT:~</span>
-              <span className='mr-2 text-green-400'>$</span>
-              <span className='text-green-300'>{h.command}</span>
+              <span className='mr-2 text-white'>C:\\Users\\visitor&gt;</span>
+              <span className='text-white'>{h.command}</span>
             </div>
             {h.output !== null && (
-              <div className='ml-4 whitespace-pre-line text-green-200'>
+              <div className='ml-4 whitespace-pre-line text-white/90'>
                 {h.output}
               </div>
             )}
@@ -88,8 +87,7 @@ export function Terminal() {
       </div>
 
       <div className='flex items-center'>
-        <span className='mr-2 text-green-400'>$</span>
-        <span className='mr-2 text-green-500'>visitor@kl3inIT:~</span>
+        <span className='mr-2 text-white'>C:\\Users\\visitor&gt;</span>
         <input
           ref={inputRef}
           value={input}
@@ -97,11 +95,10 @@ export function Terminal() {
           onKeyDown={(e) => {
             if (e.key === 'Enter') void executeCommand(input);
           }}
-          className='flex-1 bg-transparent font-mono text-green-400 outline-none'
-          placeholder='Type a command...'
+          className='flex-1 bg-transparent font-mono text-white outline-none placeholder:text-white/50'
           autoComplete='off'
         />
-        <span className='text-green-400'>|</span>
+        <span className='text-white'>|</span>
       </div>
     </div>
   );
