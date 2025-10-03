@@ -71,8 +71,8 @@ export function Terminal() {
     <div className='w-full p-4'>
       <TerminalInfo />
       <div className='mb-4 space-y-2'>
-        {history.map((h, i) => (
-          <div key={i} className='space-y-1'>
+        {history.map((h, index) => (
+          <div key={index} className='space-y-1'>
             <div className='flex items-center'>
               <span className='mr-2 text-white'>C:\\Users\\visitor&gt;</span>
               <span className='text-white'>{h.command}</span>
