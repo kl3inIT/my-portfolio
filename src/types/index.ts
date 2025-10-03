@@ -1,4 +1,5 @@
-export type { EchoProps } from './command';
+export type { EchoProps, HistoryProps } from './command';
+
 export type {
   Command,
   CommandHistory,

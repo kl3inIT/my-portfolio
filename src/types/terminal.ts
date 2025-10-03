@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-export type Command = 'help' | 'clear' | 'welcome' | 'echo';
+export type Command = 'help' | 'clear' | 'welcome' | 'echo' | 'history';
 // | 'about'
 // | 'projects'
 // | 'themes'

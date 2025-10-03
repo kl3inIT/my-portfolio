@@ -1,7 +1,6 @@
 'use client';
 import { useRef, useEffect, useState } from 'react';
-import { Help, Echo } from './commands';
-
+import { Help, Echo, History } from './commands';
 import { TerminalInfo } from './TerminalInfo';
 import {
   Command,
@@ -41,6 +40,7 @@ export function Terminal() {
   const handlers: Record<Command, CommandHandler> = {
     help: () => <Help />,
     echo: (args) => <Echo args={args} />,
+    history: () => <History history={history} />,
     clear: (_, context) => {
       context.clear();
       setShowTerminalInfo(false);
