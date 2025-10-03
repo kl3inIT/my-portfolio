@@ -1,5 +1,5 @@
 'use client';
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, useCallback } from 'react';
 import { Help, Echo, History } from './commands';
 import { TerminalInfo } from './TerminalInfo';
 import {
@@ -21,7 +21,19 @@ export function Terminal() {
   const [history, setHistory] = useState<CommandHistory[]>([]);
   const [input, setInput] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
+  const terminalRef = useRef<HTMLDivElement>(null);
   const [showTerminalInfo, setShowTerminalInfo] = useState(true);
+
+  const scrollToBottom = () => {
+    if (terminalRef.current) {
+      terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
+    }
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [history]);
+
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
@@ -34,7 +46,10 @@ export function Terminal() {
         return [...prev.slice(0, -1), updated]; // update last entry (add output)
       });
     },
-    clear: () => setHistory([]),
+    clear: () => {
+      setShowTerminalInfo(false);
+      setHistory([]);
+    },
   };
 
   const handlers: Record<Command, CommandHandler> = {
@@ -43,13 +58,9 @@ export function Terminal() {
     history: () => <History history={history} />,
     clear: (_, context) => {
       context.clear();
-      setShowTerminalInfo(false);
       return null;
     },
-    welcome: () => {
-      setShowTerminalInfo(true);
-      return <TerminalInfo />;
-    },
+    welcome: () => <TerminalInfo />,
   };
 
   const executeCommand = async (rawInput: string) => {
@@ -75,7 +86,11 @@ export function Terminal() {
     setInput('');
   };
   return (
-    <div className='w-full p-4'>
+    <div
+      ref={terminalRef}
+      className='max-h-screen w-full overflow-x-hidden overflow-y-auto p-4'
+      style={{ height: '100vh' }}
+    >
       {showTerminalInfo && <TerminalInfo />}
       <div className='mb-4 space-y-2'>
         {history.map((h, index) => (
