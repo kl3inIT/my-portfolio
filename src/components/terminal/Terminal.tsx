@@ -1,6 +1,7 @@
 'use client';
 import { useRef, useEffect, useState } from 'react';
-import { Help } from './commands';
+import { Help, Echo } from './commands';
+
 import { TerminalInfo } from './TerminalInfo';
 import {
   Command,
@@ -8,7 +9,7 @@ import {
   CommandHandler,
   ParsedCommand,
   ExecContext,
-} from '@/types/terminal';
+} from '@/types';
 
 const parseCommand = (rawInput: string): ParsedCommand => {
   const commandParts = rawInput.trim().split(/\s+/);
@@ -21,7 +22,7 @@ export function Terminal() {
   const [history, setHistory] = useState<CommandHistory[]>([]);
   const [input, setInput] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
-
+  const [showTerminalInfo, setShowTerminalInfo] = useState(true);
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
@@ -39,9 +40,15 @@ export function Terminal() {
 
   const handlers: Record<Command, CommandHandler> = {
     help: () => <Help />,
+    echo: (args) => <Echo args={args} />,
     clear: (_, context) => {
       context.clear();
+      setShowTerminalInfo(false);
       return null;
+    },
+    welcome: () => {
+      setShowTerminalInfo(true);
+      return <TerminalInfo />;
     },
   };
 
@@ -69,7 +76,7 @@ export function Terminal() {
   };
   return (
     <div className='w-full p-4'>
-      <TerminalInfo />
+      {showTerminalInfo && <TerminalInfo />}
       <div className='mb-4 space-y-2'>
         {history.map((h, index) => (
           <div key={index} className='space-y-1'>
