@@ -1,7 +1,8 @@
 'use client';
-import { useRef, useEffect, useState, useCallback } from 'react';
+import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { Help, Echo, History } from './commands';
 import { TerminalInfo } from './TerminalInfo';
+import { useAutoComplete } from '@/hooks/terminal/';
 import {
   Command,
   CommandHistory,
@@ -23,6 +24,13 @@ export function Terminal() {
   const inputRef = useRef<HTMLInputElement>(null);
   const terminalRef = useRef<HTMLDivElement>(null);
   const [showTerminalInfo, setShowTerminalInfo] = useState(true);
+  const {
+    suggestions,
+    showSuggestions,
+    getAutoComplete,
+    handleTabComplete,
+    hideSuggestions,
+  } = useAutoComplete();
 
   const scrollToBottom = () => {
     if (terminalRef.current) {
@@ -85,6 +93,35 @@ export function Terminal() {
     if (output !== null) context.print(output);
     setInput('');
   };
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setInput(value);
+    getAutoComplete(value);
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    const keyHandlers: Record<string, () => void> = {
+      Enter: () => void executeCommand(input),
+      Tab: () => {
+        event.preventDefault();
+        handleTabComplete(input, setInput);
+      },
+      // ArrowUp: () => {
+      //   event.preventDefault();
+      //   navigateUp(setInput);
+      // },
+      // ArrowDown: () => {
+      //   event.preventDefault();
+      //   navigateDown(setInput);
+      // },
+      Escape: () => hideSuggestions(),
+    };
+
+    const handler = keyHandlers[event.key];
+    if (handler) handler();
+  };
+
   return (
     <div
       ref={terminalRef}
@@ -108,18 +145,35 @@ export function Terminal() {
         ))}
       </div>
 
-      <div className='flex items-center'>
+      <div className='relative flex items-center'>
         <span className='mr-2 text-white'>C:\\Users\\visitor&gt;</span>
-        <input
-          ref={inputRef}
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') void executeCommand(input);
-          }}
-          className='flex-1 bg-transparent font-mono text-white outline-none placeholder:text-white/50'
-          autoComplete='off'
-        />
+        <div className='relative flex-1'>
+          <input
+            ref={inputRef}
+            value={input}
+            onChange={handleInputChange}
+            onKeyDown={handleKeyDown}
+            className='w-full bg-transparent font-mono text-white outline-none placeholder:text-white/50'
+            autoComplete='off'
+          />
+          {showSuggestions && suggestions.length > 0 && (
+            <div className='absolute top-full right-0 left-0 z-10 max-h-32 overflow-y-auto rounded-b-md border border-gray-600 bg-gray-800'>
+              {suggestions.map((suggestion, index) => (
+                <div
+                  key={index}
+                  className='cursor-pointer px-2 py-1 text-white hover:bg-gray-700'
+                  onClick={() => {
+                    setInput(suggestion);
+                    hideSuggestions();
+                    inputRef.current?.focus();
+                  }}
+                >
+                  {suggestion}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
         <span className='text-white'>|</span>
       </div>
     </div>

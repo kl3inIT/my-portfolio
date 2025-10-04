@@ -1,5 +1,16 @@
 import type { ReactNode } from 'react';
-export type Command = 'help' | 'clear' | 'welcome' | 'echo' | 'history';
+
+export const COMMANDS = [
+  'help',
+  'clear',
+  'welcome',
+  'echo',
+  'history',
+] as const; // transform to tuple(literal types)
+
+export type Command = (typeof COMMANDS)[number]; // union of literal types
+
+// export type Command = 'help' | 'clear' | 'welcome' | 'echo' | 'history';
 // | 'about'
 // | 'projects'
 // | 'themes'
@@ -18,12 +29,6 @@ export interface CommandHistory {
   output: ReactNode | string | null;
   timestamp: string;
 }
-
-// export interface TerminalState {
-//   history: CommandHistory[];
-//   currentInput: string;
-//   isExecuting: boolean;
-// }
 
 export type CommandHandler = (
   args: string[],
