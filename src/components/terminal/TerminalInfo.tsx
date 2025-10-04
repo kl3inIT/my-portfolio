@@ -30,17 +30,14 @@ export function TerminalInfo() {
 
         <p className='text-white'>
           This project&apos;s source code can be found in this project&apos;s{' '}
-          <span className='cursor-pointer text-white underline'>
-            <a
-              href='https://github.com/kl3inIT/my-portfolio'
-              target='_blank'
-              rel='noopener noreferrer'
-              className='cursor-pointer text-white underline'
-            >
-              GitHub repo
-            </a>
-          </span>
-          .
+          <a
+            href='https://github.com/kl3inIT/my-portfolio'
+            target='_blank'
+            rel='noopener noreferrer'
+            className='cursor-pointer text-white underline'
+          >
+            GitHub repo.
+          </a>
         </p>
 
         <div className='my-4'>----</div>
