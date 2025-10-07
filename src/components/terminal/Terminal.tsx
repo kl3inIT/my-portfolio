@@ -107,6 +107,7 @@ export function Terminal() {
     const output = await handler(rest, context);
     if (output !== null) context.print(output);
     setInput('');
+    hideSuggestions();
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -135,7 +136,6 @@ export function Terminal() {
 
     const handler = keyHandlers[event.key];
     if (handler) handler();
-    hideSuggestions();
   };
 
   return (
@@ -144,8 +144,9 @@ export function Terminal() {
       className='max-h-screen w-full overflow-x-hidden overflow-y-auto p-4'
       style={{ height: '100vh' }}
     >
-      {showTerminalInfo && <TerminalInfo />}
-      <div className='mb-4 space-y-2'>
+      {showTerminalInfo ? <TerminalInfo /> : <div className='mt-2' />}
+
+      <div className='mb-2 space-y-2'>
         {history.map((his, index) => (
           <div key={index} className='space-y-1'>
             <div className='flex items-center'>

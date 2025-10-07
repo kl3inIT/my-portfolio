@@ -1,6 +1,6 @@
 export function TerminalInfo() {
   return (
-    <div className='space-y-4'>
+    <div className='mb-2 space-y-4'>
       <div className='font-mono text-white'>
         <pre className='text-sm'>{`
    █████      ████   ████████   ███             █████ ███████████

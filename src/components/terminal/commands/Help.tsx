@@ -52,8 +52,8 @@ export function Help() {
 
       <div className='mt-4 space-y-1'>
         <p>
-          <span className='text-white'>Tab or Ctrl + i</span> ={'>'}{' '}
-          autocompletes the command
+          <span className='text-white'>Tab to</span> ={'>'} autocompletes the
+          command
         </p>
         <p>
           <span className='text-white'>Up Arrow</span> ={'>'} go back to
