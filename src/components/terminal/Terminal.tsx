@@ -2,7 +2,7 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { Help, Echo, History } from './commands';
 import { TerminalInfo } from './TerminalInfo';
-import { useAutoComplete } from '@/hooks/terminal/';
+import { useAutoComplete, useCommandNavigation } from '@/hooks/terminal/';
 import {
   Command,
   CommandHistory,
@@ -31,6 +31,9 @@ export function Terminal() {
     handleTabComplete,
     hideSuggestions,
   } = useAutoComplete();
+
+  const { addToCommandHistory, navigateUp, navigateDown } =
+    useCommandNavigation();
 
   const scrollToBottom = () => {
     if (terminalRef.current) {
@@ -74,6 +77,9 @@ export function Terminal() {
   const executeCommand = async (rawInput: string) => {
     const { command, rest } = parseCommand(rawInput);
 
+    // add command to history for navigation
+    addToCommandHistory(rawInput);
+
     // push command vào history trước, output tạm null
     setHistory((prev) => [
       ...prev,
@@ -107,19 +113,20 @@ export function Terminal() {
         event.preventDefault();
         handleTabComplete(input, setInput);
       },
-      // ArrowUp: () => {
-      //   event.preventDefault();
-      //   navigateUp(setInput);
-      // },
-      // ArrowDown: () => {
-      //   event.preventDefault();
-      //   navigateDown(setInput);
-      // },
+      ArrowUp: () => {
+        event.preventDefault();
+        navigateUp(setInput);
+      },
+      ArrowDown: () => {
+        event.preventDefault();
+        navigateDown(setInput);
+      },
       Escape: () => hideSuggestions(),
     };
 
     const handler = keyHandlers[event.key];
     if (handler) handler();
+    hideSuggestions();
   };
 
   return (
@@ -130,15 +137,15 @@ export function Terminal() {
     >
       {showTerminalInfo && <TerminalInfo />}
       <div className='mb-4 space-y-2'>
-        {history.map((h, index) => (
+        {history.map((his, index) => (
           <div key={index} className='space-y-1'>
             <div className='flex items-center'>
               <span className='mr-2 text-white'>C:\\Users\\visitor&gt;</span>
-              <span className='text-white'>{h.command}</span>
+              <span className='text-white'>{his.command}</span>
             </div>
-            {h.output !== null && (
+            {his.output !== null && (
               <div className='ml-4 whitespace-pre-line text-white/90'>
-                {h.output}
+                {his.output}
               </div>
             )}
           </div>
