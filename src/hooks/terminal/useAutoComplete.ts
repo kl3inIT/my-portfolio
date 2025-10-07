@@ -2,46 +2,38 @@ import { useState, useCallback } from 'react';
 import { COMMANDS } from '@/types';
 
 export function useAutoComplete() {
-  const [suggestions, setSuggestions] = useState<string[]>([]);
-  const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
+  const [inlineSuggestion, setInlineSuggestion] = useState<string>('');
 
   const getAutoComplete = useCallback((input: string) => {
     if (!input.trim()) {
-      setSuggestions([]);
-      setShowSuggestions(false);
+      setInlineSuggestion('');
       return;
     }
 
-    const matches = COMMANDS.filter((command) =>
-      command.toLowerCase().startsWith(input.toLowerCase())
+    const match = COMMANDS.find((cmd) =>
+      cmd.toLowerCase().startsWith(input.toLowerCase())
     );
 
-    setSuggestions(matches);
-    setShowSuggestions(matches.length > 0);
+    if (match && match.toLowerCase() !== input.toLowerCase()) {
+      setInlineSuggestion(match.slice(input.length));
+    } else {
+      setInlineSuggestion('');
+    }
   }, []);
 
-  const handleTabComplete = useCallback(
-    (currentInput: string, setInput: (value: string) => void) => {
-      if (suggestions.length === 1) {
-        setInput(suggestions[0]);
-        setShowSuggestions(false);
-      } else if (suggestions.length > 1) {
-        setInput(suggestions[0]);
-        setShowSuggestions(true);
+  const acceptAutoComplete = useCallback(
+    (input: string, setInput: (value: string) => void) => {
+      if (inlineSuggestion) {
+        setInput(input + inlineSuggestion);
+        setInlineSuggestion('');
       }
     },
-    [suggestions]
+    [inlineSuggestion]
   );
 
-  const hideSuggestions = useCallback(() => {
-    setShowSuggestions(false);
-  }, []);
-
   return {
-    suggestions,
-    showSuggestions,
+    inlineSuggestion,
     getAutoComplete,
-    handleTabComplete,
-    hideSuggestions,
+    acceptAutoComplete,
   };
 }
