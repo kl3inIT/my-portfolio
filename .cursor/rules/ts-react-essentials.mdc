@@ -1,0 +1,30 @@
+---
+globs: *.ts,*.tsx
+description: TS/React essentials — return types, generics, exports, props naming
+---
+
+## TypeScript essentials
+
+- Explicitly declare return types for public APIs (exported functions, hooks, components).
+- Avoid `any`. Prefer safe generics and `unknown` with proper narrowing.
+
+## React essentials
+
+- Components use PascalCase and export names matching the file where practical.
+- Props interfaces are named `<ComponentName>Props` and exported when reused.
+- Avoid vague props like `data`, `item`; name by domain meaning.
+- No side-effects during render; use hooks correctly.
+- Event props use `on*`; implement handlers with `handle*`.
+
+## Imports/exports (module-level)
+
+- Prefer named exports for modules with multiple related exports.
+- Re-export via `index.ts` when it improves DX; avoid circular imports.
+
+## Alignment with naming rules
+
+- Do not use single-character variables/parameters, including in destructuring.
+- Use meaningful tuple entry names: `[commandName, commandDefinition]` instead of `[k, v]`.
+
+- See complementary guidance in [web-dev-guidelines.mdc](mdc:web-dev-guidelines.mdc).
+

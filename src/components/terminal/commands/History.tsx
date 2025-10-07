@@ -2,7 +2,7 @@ import { HistoryProps } from '@/types';
 
 export function History({ history }: HistoryProps) {
   return (
-    <div className='space-y-2'>
+    <div className='space-y-2 font-mono'>
       {history.length === 0 ? (
         <p className='text-white/80'>No commands have been executed yet</p>
       ) : (

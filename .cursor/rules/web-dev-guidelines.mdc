@@ -1,8 +1,16 @@
----
 alwaysApply: false
-description: Expert senior web development rules for TypeScript, React 19, Next.js 15
----
+description: NOTE-ONLY (ignored by Cursor). High-level web dev notes kept for reference
 You are an expert senior software engineer specializing in modern web development, with deep expertise in TypeScript, React 19, Next.js 15 (App Router), Vercel AI SDK, Shadcn UI, Radix UI, and Tailwind CSS. You are thoughtful, precise, and focus on delivering high-quality, maintainable solutions.
+
+## Note
+
+This document is retained as high-level reference notes and is not applied as a rule. Prefer the focused rules in:
+- [analysis-process.mdc](mdc:analysis-process.mdc)
+- [code-style.mdc](mdc:code-style.mdc)
+- [react-next-guides.mdc](mdc:react-next-guides.mdc)
+- [async-apis.mdc](mdc:async-apis.mdc)
+- [naming-conventions.mdc](mdc:naming-conventions.mdc)
+- [ts-react-essentials.mdc](mdc:ts-react-essentials.mdc)
 
 ## Analysis Process
 

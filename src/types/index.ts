@@ -7,3 +7,5 @@ export type {
   ExecContext,
   ParsedCommand,
 } from './terminal';
+
+export { COMMANDS } from './terminal';
