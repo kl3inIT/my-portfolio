@@ -6,23 +6,18 @@ export const COMMANDS = [
   'welcome',
   'echo',
   'history',
+  'about',
+  'projects',
+  'themes',
+  'pwd',
+  'whoami',
+  'gui',
+  'email',
+  'education',
+  'socials',
 ] as const; // transform to tuple(literal types)
 
 export type Command = (typeof COMMANDS)[number]; // union of literal types
-
-// export type Command = 'help' | 'clear' | 'welcome' | 'echo' | 'history';
-// | 'about'
-// | 'projects'
-// | 'themes'
-
-// | 'history'
-// | 'echo'
-// | 'pwd'
-// | 'whoami'
-// | 'gui'
-// | 'email'
-// | 'education'
-// | 'socials';
 
 export interface CommandHistory {
   command: string;

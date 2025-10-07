@@ -1,5 +1,5 @@
 'use client';
-import React, { useRef, useEffect, useState, useCallback } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { Help, Echo, History } from './commands';
 import { TerminalInfo } from './TerminalInfo';
 import { useAutoComplete, useCommandNavigation } from '@/hooks/terminal/';
@@ -72,6 +72,15 @@ export function Terminal() {
       return null;
     },
     welcome: () => <TerminalInfo />,
+    about: () => 'Not implemented yet',
+    projects: () => 'Not implemented yet',
+    themes: () => 'Not implemented yet',
+    pwd: () => 'Not implemented yet',
+    whoami: () => 'Not implemented yet',
+    gui: () => 'Not implemented yet',
+    email: () => 'Not implemented yet',
+    education: () => 'Not implemented yet',
+    socials: () => 'Not implemented yet',
   };
 
   const executeCommand = async (rawInput: string) => {
