@@ -24,8 +24,12 @@ export function Terminal() {
   const inputRef = useRef<HTMLInputElement>(null);
   const terminalRef = useRef<HTMLDivElement>(null);
   const [showTerminalInfo, setShowTerminalInfo] = useState(true);
-  const { inlineSuggestion, getAutoComplete, acceptAutoComplete } =
-    useAutoComplete();
+  const {
+    inlineSuggestion,
+    getAutoComplete,
+    acceptAutoComplete,
+    clearSuggestion,
+  } = useAutoComplete();
 
   const { addToCommandHistory, navigateUp, navigateDown } =
     useCommandNavigation();
@@ -47,6 +51,7 @@ export function Terminal() {
   const context: ExecContext = {
     print: (out) => {
       setHistory((prev) => {
+        if (prev.length === 0) return prev; // no command to attach output
         const last = prev[prev.length - 1];
         const updated = { ...last, output: out };
         return [...prev.slice(0, -1), updated]; // update last entry (add output)
@@ -79,6 +84,7 @@ export function Terminal() {
   };
 
   const executeCommand = async (rawInput: string) => {
+    if (!rawInput.trim()) return; // ignore empty command
     const { command, rest } = parseCommand(rawInput);
 
     // add command to history for navigation
@@ -112,7 +118,10 @@ export function Terminal() {
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     const keyHandlers: Record<string, () => void> = {
-      Enter: () => void executeCommand(input),
+      Enter: () => {
+        clearSuggestion();
+        void executeCommand(input);
+      },
       Tab: () => {
         event.preventDefault();
         acceptAutoComplete(input, setInput);

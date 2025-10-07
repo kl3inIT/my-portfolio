@@ -52,15 +52,12 @@ export function Help() {
 
       <div className='mt-4 space-y-1'>
         <p>
-          <span className='text-white'>Tab to</span> ={'>'} autocompletes the
+          <span className='text-white'>Tab</span> ={'>'} autocompletes the
           command
         </p>
         <p>
           <span className='text-white'>Up Arrow</span> ={'>'} go back to
           previous command
-        </p>
-        <p>
-          <span className='text-white'>Ctrl + l</span> ={'>'} clear the terminal
         </p>
       </div>
     </div>

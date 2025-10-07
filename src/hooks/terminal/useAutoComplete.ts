@@ -31,9 +31,12 @@ export function useAutoComplete() {
     [inlineSuggestion]
   );
 
+  const clearSuggestion = useCallback(() => setInlineSuggestion(''), []);
+
   return {
     inlineSuggestion,
     getAutoComplete,
     acceptAutoComplete,
+    clearSuggestion,
   };
 }
