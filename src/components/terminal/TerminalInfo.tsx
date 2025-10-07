@@ -2,7 +2,7 @@ export function TerminalInfo() {
   return (
     <div className='mb-2 space-y-4'>
       <div className='font-mono text-white'>
-        <pre className='text-sm'>{`
+        <pre className='max-w-full whitespace-pre text-[10px] sm:text-xs md:text-sm'>{`
    █████      ████   ████████   ███             █████ ███████████
   ▒▒███      ▒▒███  ███▒▒▒▒███ ▒▒▒             ▒▒███ ▒█▒▒▒███▒▒▒█
    ▒███ █████ ▒███ ▒▒▒    ▒███ ████  ████████   ▒███ ▒   ▒███  ▒ 

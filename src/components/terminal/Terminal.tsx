@@ -156,7 +156,7 @@ export function Terminal() {
               <span className='text-white'>{his.command}</span>
             </div>
             {his.output !== null && (
-              <div className='ml-4 whitespace-pre-line text-white/90'>
+              <div className='ml-4 break-words whitespace-pre-line text-white/90'>
                 {his.output}
               </div>
             )}
