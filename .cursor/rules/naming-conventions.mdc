@@ -1,0 +1,24 @@
+---
+alwaysApply: true
+description: Naming rules — forbid single-character names; parameters/destructuring must be meaningful
+---
+
+## Mandatory naming rules
+
+- Do not use single-character names for variables, constants, parameters, or destructured properties. Always choose meaningful, self-descriptive names.
+  - Good: `.filter(([key, value]) => isDefined(value.default))`
+  - Bad: `.filter(([k, v]) => isDefined(v.default))`
+
+- Function parameters must describe their purpose. Avoid vague abbreviations (`val`, `arr`, `obj`).
+
+- When destructuring, rename entries to meaningful names if needed:
+  - Example: `const [commandName, commandDefinition] = entry`
+
+- Use verbs for functions (for example, `generateSlug`, `handleSubmit`). Use nouns for variables/objects (for example, `userProfile`, `commandRegistry`).
+
+- Avoid uncommon abbreviations. If an abbreviation is necessary, use widely accepted forms (for example, `id`, `url`, `html`).
+
+- Boolean names should start with a truthiness prefix: `is`, `has`, `can`, `should`.
+
+- Align with general guidance in [web-dev-guidelines.mdc](mdc:web-dev-guidelines.mdc) and extend it with stricter enforcement against single-character names.
+
