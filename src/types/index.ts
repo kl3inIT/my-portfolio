@@ -9,3 +9,5 @@ export type {
 } from './terminal';
 
 export { COMMANDS } from './terminal';
+
+export type { ThemeName, TerminalTheme } from './theme';

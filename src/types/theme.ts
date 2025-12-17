@@ -1,10 +1,10 @@
 export interface TerminalTheme {
-    name: string;
+    name: ThemeName;
     displayName: string;
     colors: {
       background: string;
       foreground: string;
-      cursor: string;s
+      cursor: string;
       cursorAccent: string;
       selection: string;
       // ANSI Colors (normal)
