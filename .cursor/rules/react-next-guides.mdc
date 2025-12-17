@@ -1,8 +1,8 @@
 ---
 globs: src/app/**,*.tsx
-description: React 19 and Next.js 15 best practices for components and app router
+description: React 19 and Next.js 16 best practices for components and app router
 ---
-## React 19 and Next.js 15 Best Practices
+## React 19 and Next.js 16 Best Practices
 
 ### Component Architecture
 
