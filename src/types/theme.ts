@@ -7,7 +7,6 @@ export interface TerminalTheme {
     cursor: string;
     cursorAccent: string;
     selection: string;
-    // ANSI Colors (normal)
     black: string;
     red: string;
     green: string;
@@ -16,7 +15,6 @@ export interface TerminalTheme {
     magenta: string;
     cyan: string;
     white: string;
-    // ANSI Colors (bright)
     brightBlack: string;
     brightRed: string;
     brightGreen: string;

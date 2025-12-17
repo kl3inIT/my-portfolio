@@ -1,8 +1,8 @@
 'use client';
 import React, { useRef, useEffect, useState } from 'react';
-import { Help, Echo, History } from './commands';
+import { Help, Echo, History, Themes } from './commands';
 import { TerminalInfo } from './TerminalInfo';
-import { useAutoComplete, useCommandNavigation } from '@/hooks/terminal/';
+import { useAutoComplete, useCommandNavigation, useTerminalTheme } from '@/hooks/terminal/';
 import {
   Command,
   CommandHistory,
@@ -10,6 +10,7 @@ import {
   ParsedCommand,
   ExecContext,
 } from '@/types';
+
 
 const parseCommand = (rawInput: string): ParsedCommand => {
   const commandParts = rawInput.trim().split(/\s+/);
@@ -19,6 +20,7 @@ const parseCommand = (rawInput: string): ParsedCommand => {
 };
 
 export function Terminal() {
+  const { currentTheme } = useTerminalTheme();
   const [history, setHistory] = useState<CommandHistory[]>([]);
   const [input, setInput] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
@@ -30,6 +32,32 @@ export function Terminal() {
     acceptAutoComplete,
     clearSuggestion,
   } = useAutoComplete();
+
+  const themeStyles = {
+    '--term-bg': currentTheme.colors.background,
+    '--term-fg': currentTheme.colors.foreground,
+    '--term-cursor': currentTheme.colors.cursor,
+    '--term-cursor-accent': currentTheme.colors.cursorAccent,
+    '--term-selection': currentTheme.colors.selection,
+    // ANSI colors
+    '--term-black': currentTheme.colors.black,
+    '--term-red': currentTheme.colors.red,
+    '--term-green': currentTheme.colors.green,
+    '--term-yellow': currentTheme.colors.yellow,
+    '--term-blue': currentTheme.colors.blue,
+    '--term-magenta': currentTheme.colors.magenta,
+    '--term-cyan': currentTheme.colors.cyan,
+    '--term-white': currentTheme.colors.white,
+    // Bright ANSI colors
+    '--term-bright-black': currentTheme.colors.brightBlack,
+    '--term-bright-red': currentTheme.colors.brightRed,
+    '--term-bright-green': currentTheme.colors.brightGreen,
+    '--term-bright-yellow': currentTheme.colors.brightYellow,
+    '--term-bright-blue': currentTheme.colors.brightBlue,
+    '--term-bright-magenta': currentTheme.colors.brightMagenta,
+    '--term-bright-cyan': currentTheme.colors.brightCyan,
+    '--term-bright-white': currentTheme.colors.brightWhite,
+  } as React.CSSProperties;
 
   const { addToCommandHistory, navigateUp, navigateDown } =
     useCommandNavigation();
@@ -74,7 +102,7 @@ export function Terminal() {
     welcome: () => <TerminalInfo />,
     about: () => 'Not implemented yet',
     projects: () => 'Not implemented yet',
-    themes: () => 'Not implemented yet',
+    themes: (args) => <Themes args={args} />,
     pwd: () => 'Not implemented yet',
     whoami: () => 'Not implemented yet',
     gui: () => 'Not implemented yet',
@@ -144,7 +172,12 @@ export function Terminal() {
     <div
       ref={terminalRef}
       className='max-h-screen w-full overflow-x-hidden overflow-y-auto p-4'
-      style={{ height: '100vh' }}
+      style={{
+        ...themeStyles,
+        height: '100vh',
+        backgroundColor: 'var(--term-bg)',
+        color: 'var(--term-fg)',
+      }}
     >
       {showTerminalInfo ? <TerminalInfo /> : <div className='mt-2' />}
 
