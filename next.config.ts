@@ -1,7 +1,10 @@
-import type { NextConfig } from 'next';
+import type { NextConfig } from 'next'
 
+// Next.js 16 - turbopack at the top level of nextConfig
 const nextConfig: NextConfig = {
-  /* config options here */
-};
+  turbopack: {
+    // options
+  },
+}
 
-export default nextConfig;
+export default nextConfig
